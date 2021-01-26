@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="http://fonts.cdnfonts.com/css/ocr-a-extended" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+</head>
+<body>
+    <h1 class="jumbotron text-center">Gazi Chatbot</h1>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-6 offset-sm-3">
+            <div id="chatbox" class="border border-success">
+                <p class="botText"><span>Merhaba</span></p>
+            </div>
+            <div id="userInput">
+                <input id="correctInput" class="btn btn-info form-control" type="submit" value="">
+                <input id="textInput" class="form-control" type="text" name="msg" placeholder="Nasıl yardımcı olabilirim?">
+                <input id="buttonInput" class="btn btn-success form-control" type="submit" value="Gönder">
+            </div>
+        </div>
+    </div>
+<script>
+    var expectedWords = [
+    ];
+    //json zaten var bi ustten okumak lazim
+    var json = {"intents": [
+             {"tag": "rektör",
+              "patterns": ["rektör", "baskan"],
+              "responses": ["http://gazi-universitesi.gazi.edu.tr/posts/view/title/rektor-249462?siteUri=gazi-universitesi"],
+              "context_set": ""},
+
+             {"tag": "üniversite yönetimi",
+              "patterns": ["üniversite yönetimi", "yönetim"],
+              "responses": ["http://gazi-universitesi.gazi.edu.tr/posts/view/title/yonetim-157633"], "context_set": ""},
+
+             {"tag": "politikalarımız",
+              "patterns": ["üniversite politakaları", "üniversite politikası"],
+              "responses": ["http://gazi.edu.tr/posts/view/title/politikalarimiz-242709?siteUri=gazi-universitesi"], "context_set": ""},
+
+             {"tag": "misyon ve vizyon",
+              "patterns": ["misyon", "vizyon", "misyon ve vizyon"],
+              "responses": ["http://gazi.edu.tr/posts/view/title/misyon---vizyon-217061?siteUri=gazi-universitesi"],
+              "context_set": ""},
+
+             {"tag": "kişisel verilerin korunması",
+              "patterns": ["kişisel veriler", "korunması", "kişisel verilerin korunması"],
+              "responses": ["http://gazi.edu.tr/posts/view/title/kisisel-verilerin-korunmasi-256514?siteUri=gazi-universitesi"], "context_set": ""},
+
+             {"tag": "kurumsal kimlik",
+              "patterns": ["kurumsal", "kimlik", "kurumsal kimlik"],
+              "responses": ["http://gazi.edu.tr/posts/view/title/kurumsal-kimlik-kilavuzu-237161?siteUri=gazi-universitesi"], "context_set": ""},
+            {"tag": "organizasyon şeması", "patterns": ["organizasyo", "şemas", "organizasyon şemas"],
+             "responses": ["http://gazi.edu.tr/posts/view/title/organizasyon-semasi-221321?siteUri=gazi-universitesi"], "context_set": ""},
+             {"tag": "stratejik plan&raporlar", "patterns": ["stratejik", "plan", "&", "rapor", "stratejik plan&rapor"],
+              "responses": ["http://gazi-universitesi.gazi.edu.tr/posts/view/title/raporlar-151"], "context_set": ""},
+             {"tag": "i̇dari birimler", "patterns": ["i̇dar", "birim", "i̇dari birim"], "responses": ["http://gazi-universitesi.gazi.edu.tr/posts/view/title/idari-birimler-13307"], "context_set": ""},
+             {"tag": "kurul komisyon koordinatörlükler", "patterns": ["kurul", "komisyo", "koordinatörlük", "kurul komisyon koordinatörlük"], "responses": ["http://gazi.edu.tr/posts/view/title/kurul-ve-komisyonlar---koordinatorlukler-236920?siteUri=gazi-universitesi"], "context_set": ""},
+             {"tag": "gazi nin şehitleri", "patterns": ["gazi", "nin", "şehit", "gazi nin şehit"],
+             "responses": ["http://gazi.edu.tr/posts/view/title/gazi%27nin-sehitleri-162185?siteUri=gazi-universitesi"], "context_set": ""},
+             {"tag": "akademi̇k", "patterns": ["akademi̇k", "akademi̇k"], "responses": ["http://gazi-universitesi.gazi.edu.tr/posts?type=akademik"], "context_set": ""},
+    {"tag": "akademik takvim", "patterns": ["akademik", "takv", "akademik takv"], "responses": ["http://gazi-universitesi.gazi.edu.tr/posts?type=akademiktakvim"], "context_set": ""},
+             {"tag": "akademik birimler", "patterns": ["akademik", "birim", "akademik birim"], "responses": ["http://gazi-universitesi.gazi.edu.tr/posts/view/title/akademik-birimler-13306?siteUri=gazi-universitesi"], "context_set": ""},
+             {"tag": "akademik ve bilimsel dergiler", "patterns": ["akademik", "ve", "bilimsel", "dergi", "akademik ve bilimsel dergi"], "responses": ["http://gazi-universitesi.gazi.edu.tr/posts/view/title/dergiler-215"], "context_set": ""},
+             {"tag": "akademik yükseltilme ve atanma kriterleri", "patterns": ["akademik", "yükseltilme", "ve", "atanma", "kriter", "akademik yükseltilme ve atanma kriter"], "responses": ["http://gazi-universitesi.gazi.edu.tr/posts/view/title/gazi-universitesi-akademik-yukseltilme-ve-atanma-kriterleri-yonergesi-257052?siteUri=gazi-universitesi"], "context_set": ""},
+             {"tag": "bilgi paketi", "patterns": ["bilgi", "paket", "bilgi paket"], "responses": ["http://gbp.gazi.edu.tr//?lang=0&baslik=1"], "context_set": ""},
+             {"tag": "öğrenci̇", "patterns": ["öğrenci̇", "öğrenci̇"], "responses": ["http://gazi-universitesi.gazi.edu.tr/posts?type=ogrenci"], "context_set": ""},
+             {"tag": "öğrenci i̇şleri daire başkanlığı", "patterns": ["öğrenci", "i̇ş", "dair", "başkanlık", "öğrenci i̇şleri daire başkanlık"], "responses": ["http://ogris.gazi.edu.tr/"], "context_set": ""},
+             {"tag": "sağlık kültür spor dairesi başkanlığı", "patterns": ["sağlık", "kül", "spor", "daires", "başkanlık", "sağlık kültür spor dairesi başkanlık"], "responses": ["http://mediko.gazi.edu.tr/"], "context_set": ""},
+             {"tag": "öğrenci danışma ve burs hizmetleri birimi", "patterns": ["öğrenci", "danışma", "ve", "burs", "hizmet", "bir", "öğrenci danışma ve burs hizmetleri bir"], "responses": ["http://odm.gazi.edu.tr/"], "context_set": ""},
+             {"tag": "engelsizler birimi", "patterns": ["engelsiz", "bir", "engelsizler bir"], "responses": ["http://engelsiz.gazi.edu.tr/"], "context_set": ""},
+             {"tag": "kariyer planlama", "patterns": ["kariyer", "planla", "kariyer planla"], "responses": ["http://kariyerplanlama.gazi.edu.tr/"], "context_set": ""},
+             {"tag": "öğrenci toplulukları", "patterns": ["öğrenci", "topluluk", "öğrenci topluluk"], "responses": ["http://topluluklar.gazi.edu.tr"], "context_set": ""},
+             {"tag": "uluslararasi", "patterns": ["uluslararasi", "uluslararasi"], "responses": ["http://gazi-universitesi.gazi.edu.tr/posts?type=adayogrenci"], "context_set": ""},
+             {"tag": "uluslararası öğrenciler birimi", "patterns": ["uluslararas", "öğrenci", "bir", "uluslararası öğrenciler bir"], "responses": ["http://gazi-international.gazi.edu.tr/"], "context_set": ""},
+             {"tag": "erasmus değişim programı", "patterns": ["erasmus", "değiş", "progra", "erasmus değişim progra"], "responses": ["http://erasmus.gazi.edu.tr/ "], "context_set": ""},
+             {"tag": "farabi değişim programı", "patterns": ["farabi", "değiş", "progra", "farabi değişim progra"], "responses": ["http://farabi.gazi.edu.tr/"], "context_set": ""},
+             {"tag": "mevlana değişim programı", "patterns": ["mevla", "değiş", "progra", "mevlana değişim progra"], "responses": ["http://mevlana.gazi.edu.tr/ "], "context_set": ""},
+             {"tag": "protokol birimi", "patterns": ["protokol", "bir", "protokol bir"], "responses": ["http://ciftdiploma.gazi.edu.tr/ "], "context_set": ""},
+             {"tag": "alan ve derece tespit birimi", "patterns": ["ala", "ve", "dereç", "tespit", "bir", "alan ve derece tespit bir"], "responses": ["http://alan-derece-tespit.gazi.edu.tr/"], "context_set": ""},
+             {"tag": "i̇lmi hüviyet tespit birimi", "patterns": ["i̇lmi", "hüviyet", "tespit", "bir", "i̇lmi hüviyet tespit bir"], "responses": ["http://ilmi-huviyet-tespiti.gazi.edu.tr/"], "context_set": ""},
+             {"tag": "yök bursluları birimi", "patterns": ["yök", "burslu", "bir", "yök bursluları bir"], "responses": ["http://oyp.gazi.edu.tr/"], "context_set": ""},
+             {"tag": "kayıt kılavuzu", "patterns": ["kayıt", "kılavuz", "kayıt kılavuz"], "responses": ["http://kilavuz.gazi.edu.tr/"], "context_set": ""},
+             {"tag": "bilgi paketi", "patterns": ["bilgi", "paket", "bilgi paket"], "responses": ["http://gbp.gazi.edu.tr//?lang=0&baslik=1"], "context_set": ""},
+             {"tag": "kütüphane", "patterns": ["kütüpha", "kütüpha"], "responses": ["http://lib.gazi.edu.tr/"], "context_set": ""},
+             {"tag": "bilimsel araştırma projeleri", "patterns": ["bilimsel", "araştırma", "proje", "bilimsel araştırma proje"], "responses": ["http://bap.gazi.edu.tr/"], "context_set": ""},
+             {"tag": "uygulama ve araştırma merkezleri", "patterns": ["uygula", "ve", "araştırma", "merkez", "uygulama ve araştırma merkez"], "responses": ["http://gazi.edu.tr/posts/view/title/uygulama-ve-arastirma-merkezleri-252158?siteUri=gazi-universitesi"], "context_set": ""},
+             {"tag": "teknoloji transfer ofisi", "patterns": ["teknoloj", "transfer", "ofis", "teknoloji transfer ofis"], "responses": ["http://www.gazitto.com.tr"], "context_set": ""},
+             {"tag": "proje ofisi", "patterns": ["proje", "ofis", "proje ofis"], "responses": ["http://proje.gazi.edu.tr/"], "context_set": ""},
+             {"tag": "gazi teknopark", "patterns": ["gazi", "teknopark", "gazi teknopark"], "responses": ["http://www.gaziteknopark.com.tr/"], "context_set": ""},
+             {"tag": "bi̇lgi̇ si̇stemleri̇", "patterns": ["bi̇lgi̇", "si̇stemleri̇", "bi̇lgi̇ si̇stemleri̇"], "responses": ["http://gazi-universitesi.gazi.edu.tr/posts?type=gazinet"], "context_set": ""},
+             {"tag": "ebys", "patterns": ["ebys", "ebys"], "responses": ["https://ebys.gazi.edu.tr/enVision/Login.aspx?ReturnUrl=%2fenvision"], "context_set": ""},
+             {"tag": "guzem öğrenme yönetim sistemi", "patterns": ["guze", "öğrenme", "yönet", "siste", "guzem öğrenme yönetim siste"], "responses": ["https://lms.gazi.edu.tr"], "context_set": ""},
+             {"tag": "öğrenci i̇şleri bilgi sistemi", "patterns": ["öğrenci", "i̇ş", "bilgi", "siste", "öğrenci i̇şleri bilgi siste"], "responses": ["https://obs.gazi.edu.tr"], "context_set": ""},
+             {"tag": "akademik bilgi sistemi (abs)", "patterns": ["akademik", "bilgi", "siste", "(", "abs", ")", "akademik bilgi sistemi (abs)"], "responses": ["https://abs.gazi.edu.tr/"], "context_set": ""},
+             {"tag": "puantaj bilgi sistemi", "patterns": ["puantaj", "bilgi", "siste", "puantaj bilgi siste"], "responses": ["http://puantaj.gazi.edu.tr/"], "context_set": ""},
+             {"tag": "öğrenci i̇statistik bilgi sistemi", "patterns": ["öğrenci", "i̇statis", "bilgi", "siste", "öğrenci i̇statistik bilgi siste"], "responses": ["https://obs.gazi.edu.tr/oibs/public_stats/index.aspx"], "context_set": ""},
+             {"tag": "personel i̇statistik bilgi sistemi", "patterns": ["personel", "i̇statis", "bilgi", "siste", "personel i̇statistik bilgi siste"], "responses": ["http://pbs-istatistik.gazi.edu.tr/nhrwebstatspublic/dashboard/index"], "context_set": ""},
+             {"tag": "bilimsel araştırma projeleri bilgi sistemi", "patterns": ["bilimsel", "araştırma", "proje", "bilgi", "siste", "bilimsel araştırma projeleri bilgi siste"], "responses": ["http://projeler.gazi.edu.tr/"], "context_set": ""},
+             {"tag": "i̇hale bilgi sistemi", "patterns": ["i̇hal", "bilgi", "siste", "i̇hale bilgi siste"], "responses": ["http://ihsis.gazi.edu.tr"], "context_set": ""},
+             {"tag": "mezun bilgi sistemi", "patterns": ["mez", "bilgi", "siste", "mezun bilgi siste"], "responses": ["https://obs.gazi.edu.tr/oibs/kariyer/"], "context_set": ""},
+             {"tag": "i̇leti̇şi̇m", "patterns": ["i̇leti̇şi̇m", "i̇leti̇şi̇m"], "responses": ["http://gazi-universitesi.gazi.edu.tr/posts?type=iletisim"], "context_set": ""},
+             {"tag": "i̇letişim sayfası", "patterns": ["i̇letiş", "sayfas", "i̇letişim sayfas"], "responses": ["http://gazi-universitesi.gazi.edu.tr/posts?type=iletisim"], "context_set": ""},
+             {"tag": "gazi e-posta", "patterns": ["gazi", "e-pos", "gazi e-pos"], "responses": ["https://zbr.gazi.edu.tr/zimbra/"], "context_set": ""},
+             {"tag": "yerleşkeler", "patterns": ["yerleşke", "yerleşke"], "responses": ["http://gazi-universitesi.gazi.edu.tr/posts/view/title/yerleskeler-169251"], "context_set": ""},
+             {"tag": " facebookta paylaş", "patterns": ["facebook", "paylaş", " facebookta paylaş"],
+             "responses": ["https://www.facebook.com/sharer/sharer.php?u=http://gazi.edu.tr/"], "context_set": ""},
+             {"tag": " twitter da paylaş", "patterns": ["twitterda", "paylaş", " twitterda paylaş"], "responses": ["https://twitter.com/home?status=http://gazi.edu.tr/"], "context_set": ""},
+             {"tag": " linkedinde paylaş", "patterns": ["linkedin", "paylaş", " linkedin de paylaş"], "responses": ["https://www.linkedin.com/shareArticle?mini=true&url=http://gazi.edu.tr/&title=Gazi%20Universitesi&summary=&source="], "context_set": ""},
+              {"tag": "\n\n", "patterns": ["\n\n"], "responses": ["http://guzem.gazi.edu.tr/posts/view/title/2020-2021-guz-donemi-yabanci-dil-kurslarimiz-258730?siteUri=guzem"], "context_set": ""},
+              {"tag": "guzem öys", "patterns": ["guze", "öys", "guzem öys"], "responses": ["https://lms.gazi.edu.tr/"], "context_set": ""}, {"tag": "abs", "patterns": ["abs", "abs"], "responses": ["http://abs.gazi.edu.tr"], "context_set": ""},
+             {"tag": "akademi̇k takvi̇m", "patterns": ["akademi̇k", "takvi̇m", "akademi̇k takvi̇m"], "responses": ["http://gazi-universitesi.gazi.edu.tr/posts?type=akademiktakvim"], "context_set": ""},
+             {"tag": "ebys", "patterns": ["ebys", "ebys"], "responses": ["http://ebys.gazi.edu.tr/envision"], "context_set": ""},
+             {"tag": "kütüphane", "patterns": ["kütüpha", "kütüpha"], "responses": ["http://lib.gazi.edu.tr"], "context_set": ""},
+             {"tag": "kullanici kilavuzu", "patterns": ["kullaniç", "kilavuz", "kullanici kilavuz"], "responses": ["http://egitim.bidb.gazi.edu.tr/"], "context_set": ""},
+             {"tag": "öğrenci̇ i̇şleri̇", "patterns": ["öğrenci̇", "i̇şleri̇", "öğrenci̇ i̇şleri̇"], "responses": ["http://ogris.gazi.edu.tr/"], "context_set": ""},
+             {"tag": "senato kararlari", "patterns": ["senato", "kararlari", "senato karar"], "responses": ["http://senato.gazi.edu.tr/"], "context_set": ""},
+             {"tag": "e-posta", "patterns": ["e-pos", "e-pos"], "responses": ["https://zbr.gazi.edu.tr/zimbra/"], "context_set": ""},
+             {"tag": "spor & sağlık merkezleri ", "patterns": ["spor", "&", "sağlık", "merkez", "spor & sağlık merkezleri "], "responses": ["http://mediko.gazi.edu.tr/?language=tr_TR"], "context_set": ""},
+             {"tag": "öğrenci kulüpleri", "patterns": ["öğrenci", "kulüp", "öğrenci kulüp"], "responses": ["http://topluluklar.gazi.edu.tr/?language=tr_TR"], "context_set": ""},
+             {"tag": "kütüphane ", "patterns": ["kütüpha", "kütüphane "], "responses": ["http://lib.gazi.edu.tr/"], "context_set": ""}, {"tag": "sosyal yaşam & personel ", "patterns": ["sosyal", "yaşa", "&", "personel", "sosyal yaşam & personel "], "responses": ["http://gazi.edu.tr/posts?type=personel"], "context_set": ""},
+             {"tag": "bilimsel arastırma projeler birimi (bap)", "patterns": ["bilimsel", "arastırma", "proje", "bir", "(", "bap", ")", "bilimsel arastırma projeler birimi (bap)"], "responses": ["http://bap.gazi.edu.tr/?language=tr_TR"], "context_set": ""},
+             {"tag": "araştırma ve uygulama merkezleri", "patterns": ["araştırma", "ve", "uygula", "merkez", "araştırma ve uygulama merkez"], "responses": ["http://gazi-universitesi.gazi.edu.tr/posts/view/title/arastirma-ve-uygulama-merkezleri-252158"], "context_set": ""},
+             {"tag": "akademik ölçütler ve ödül bürosu", "patterns": ["akademik", "ölçüt", "ve", "ödül", "büros", "akademik ölçütler ve ödül büros"], "responses": ["http://aolcutodul.gazi.edu.tr/?language=tr_TR"], "context_set": ""},
+             {"tag": "proje koordinasyon u.a. merkezi", "patterns": ["proje", "koordinasyo", "u.", ".", "merkez", "proje koordinasyon u.a. merkez"], "responses": ["http://proje.gazi.edu.tr/?language=tr_TR"], "context_set": ""},
+             {"tag": "başarılı proje sonuçları platformu", "patterns": ["başarıl", "proje", "sonuç", "platformu", "başarılı proje sonuçları platformu"], "responses": ["http://proje.gazi.edu.tr/posts/view/title/basarili-proje-sonuclari-platformu-224816?siteUri=proje&language=tr_TR"], "context_set": ""},
+             {"tag": "web of science yayın indeksi", "patterns": ["web", "of", "scie", "yay", "indeksi", "web of science yayın indeksi"], "responses": ["https://webofknowledge.com/"], "context_set": ""},
+             {"tag": "akademik & bilimsel dergiler", "patterns": ["akademik", "&", "bilimsel", "dergi", "akademik & bilimsel dergi"], "responses": ["http://gazi-universitesi.gazi.edu.tr/posts/view/title/dergiler-215"], "context_set": ""}, {"tag": "açık arşiv (tezler & makaleler)", "patterns": ["açık", "arşiv", "(", "tez", "&", "makale", ")", "açık arşiv (tezler & makaleler)"], "responses": ["http://dspace.gazi.edu.tr/?language=tr_TR"], "context_set": ""},
+             {"tag": "projeler", "patterns": ["proje", "proje"], "responses": ["http://gazi-universitesi.gazi.edu.tr/posts/view/title/projeler-190981"], "context_set": ""},
+             {"tag": "kurum dışı etkinlikler", "patterns": ["kur", "dış", "etkinlik", "kurum dışı etkinlik"], "responses": ["http://gazi.edu.tr/posts/view/title/kurum-disi-etkinlikler-243044"], "context_set": ""}, {"tag": "planlama değerlendirme", "patterns": ["planla", "değerlendirme", "planlama değerlendirme"], "responses": ["http://gazi-universitesi.gazi.edu.tr/posts/view/title/raporlar-151"], "context_set": ""},
+             {"tag": "teknoloji transfer ofisi", "patterns": ["teknoloj", "transfer", "ofis", "teknoloji transfer ofis"], "responses": ["http://www.gazitto.com.tr/?language=tr_TR"], "context_set": ""},
+             {"tag": "kalite komisyonu", "patterns": ["kali", "komisyo", "kalite komisyo"], "responses": ["http://kalite.gazi.edu.tr/?language=tr_TR"], "context_set": ""},
+             {"tag": "incites", "patterns": ["incites", "incites"], "responses": ["https://incites.clarivate.com/"], "context_set": ""},
+             {"tag": "bilgi", "patterns": ["bilgi", "bilgi"], "responses": ["http://gazi.edu.tr/Incites_dokuman.pdf"], "context_set": ""},
+             {"tag": "gazi teknopark", "patterns": ["gazi", "teknopark", "gazi teknopark"], "responses":["http://www.gaziteknopark.com.tr/?language=tr_TR"], "context_set": ""},
+             {"tag": "etik kurullar", "patterns": ["etik", "kurul", "etik kurul"], "responses": ["http://gazi-universitesi.gazi.edu.tr/posts/view/title/etik-kurullar-31301"], "context_set": ""},
+            {"tag": "anketler", "patterns": ["anket", "anket"], "responses": ["http://gazi-universitesi.gazi.edu.tr/posts/view/title/anketler-49411"], "context_set": ""}
+
+            ]}
+    function getTags(){
+        var values = json['intents'];
+        var sumstr = "";
+        //document.write(JSON.stringify());
+         for (var i = 0; i < values.length; i++) {
+            var strToAdd = JSON.stringify(values[i].tag);
+            sumstr += " " + strToAdd;
+    }
+        sumstr = sumstr.replace(/"/g, "");
+        expectedWords = sumstr.split(" ");
+        //document.write(expectedWords);
+    }
+
+    getTags();
+
+    function getBigram(word){
+        let bigram = [];
+
+        for(let i = 0; i < word.length - 1; i++){
+            bigram.push(word[i] + word[i+1]);
+        }
+
+        return bigram;
+    }
+
+    function getSimilarity(word1, word2){
+        word1 = word1.toLowerCase();
+        word2 = word2.toLowerCase();
+        const bigram1 = getBigram(word1), bigram2 = getBigram(word2);
+        let similar = [];
+
+        for(let i = 0; i < bigram1.length; i++){
+            if(bigram2.indexOf(bigram1[i]) > -1){
+                similar.push(bigram1[i]);
+            }
+        }
+        return similar.length / Math.max(bigram1.length, bigram2.length);
+    }
+
+    function autoCorrect(word){
+        console.log(word);
+        let maxSimilarity = 0;
+        let mostSimilar = word;
+
+        for(let i = 0; i < expectedWords.length; i++){
+            let similarity = getSimilarity(expectedWords[i], word);
+            if(similarity > maxSimilarity){
+                maxSimilarity = similarity;
+                mostSimilar = expectedWords[i];
+            }
+        }
+        return mostSimilar;
+    }
+
+    $("#textInput").on("keyup change", function(e) {
+        var text = $("#textInput").val();
+        if(text.length > 0){
+            text = text.split(" ");
+            var lastWord = text[text.length - 1];
+            var correction = autoCorrect(lastWord);
+
+            $("#correctInput").prop('value', correction);
+        }
+        else
+            $("#correctInput").prop('value', "");
+
+        //$("#output").html('');
+
+    });
+    function getResponse() {
+        let userText = $("#textInput").val();
+        let userHtml = '<p class="userText"><span>' + userText + '</span></p>';
+        $("#textInput").val("");
+        $("#chatbox").append(userHtml);
+        document.getElementById('userInput').scrollIntoView({block: 'start', behavior: 'smooth'});
+        $.get("/get", { msg: userText }).done(function(data) {
+        var botHtml = '<p class="botText"><span>' + data + '</span></p>';
+        $("#chatbox").append(botHtml);
+        document.getElementById('userInput').scrollIntoView({block: 'start', behavior: 'smooth'});
+    });
+    }
+    $("#textInput").keypress(function(e) {
+        if(e.which == 13) {
+            getResponse();
+        }
+    });
+
+    $("#buttonInput").click(function() {
+        getResponse();
+    });
+
+    $(document).ready(function(){
+        $("#correctInput").click(function(){
+            var value = $(this).attr("value");
+            //$("#textInput").val(value);
+            var newStr = $("#textInput").val().split(" ").slice(0, -1).join(" ");
+            newStr = newStr + " " + value;
+            $("#textInput").val(newStr);
+        });
+    });
+    </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</div>
+</body>
+</html>
